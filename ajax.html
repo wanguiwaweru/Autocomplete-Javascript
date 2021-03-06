@@ -51,9 +51,22 @@ function displayMatches() {
   suggestions.innerHTML = html;
 }
 
-
-searchInput.addEventListener('change', displayMatches);
-searchInput.addEventListener('keyup', displayMatches);
+function debounce(func, wait = 200, immediate = false) {
+      let timeout;
+      return function() {
+        let context = this, args = arguments;
+        let later = function() {
+          timeout = null;
+          if (!immediate) func.apply(context, args);
+        };
+        let callNow = immediate && !timeout;
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+        if (callNow) func.apply(context, args);
+      };
+    };
+searchInput.addEventListener("change", debounce(displayMatches, 1500));
+searchInput.addEventListener('keyup', debounce(displayMatches,1500));
 
 </script>
   </body>
